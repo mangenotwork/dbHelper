@@ -34,8 +34,9 @@ todo...
 
 
 # todo list
-- 配置化
-- mysql 的连接支持ssh隧道
+- [ok] 配置化   
+- [ok] mysql 的连接支持ssh隧道
+- [ok] 日志打印
 - 常用方法支持，uuid, md5, 字符串处理
 - 对象存储 腾讯云
 - redis 的连接支持ssh隧道

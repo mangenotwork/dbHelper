@@ -8,7 +8,6 @@ import (
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-	"log"
 	"time"
 )
 
@@ -56,14 +55,16 @@ func mysqlConn(conf *MysqlConf) (*gorm.DB, error) {
 		if err != nil {
 			return nil, err
 		}
+
 		go func() {
-			err = sshConf.GetSshConn()
+			err = sshConf.getSshConn()
 			if err != nil {
-				log.Println("ssh connect err:", err)
+				Error("ssh connect err:", err)
 				panic(err)
 			}
 		}()
 
+		// todo 优化 ssh连接成功了通知
 		time.Sleep(3 * time.Second)
 
 		host = sshConf.LocalHost
@@ -116,6 +117,7 @@ func mysqlConn(conf *MysqlConf) (*gorm.DB, error) {
 
 type GormLogger struct {
 	SlowThreshold time.Duration
+	//Level         gormLogger.LogLevel
 }
 
 var _ gormLogger.Interface = (*GormLogger)(nil)
@@ -129,7 +131,9 @@ func NewGormLogger() *GormLogger {
 var _ gormLogger.Interface = (*GormLogger)(nil)
 
 func (l *GormLogger) LogMode(lev gormLogger.LogLevel) gormLogger.Interface {
-	return &GormLogger{}
+	return &GormLogger{
+		//Level: lev,
+	}
 }
 func (l *GormLogger) Info(ctx context.Context, msg string, data ...interface{}) {
 	InfoF(msg, data)
