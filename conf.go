@@ -34,7 +34,8 @@ func InitConf(path string) {
 }
 
 type conf struct {
-	MysqlConf []*MysqlConf `yaml:"mysql"`
+	MysqlConf  []*MysqlConf  `yaml:"mysql"`
+	TenCentCOS []*TenCentCOS `yaml:"tencentCOS"`
 }
 
 type MysqlConf struct {
@@ -55,4 +56,11 @@ type MysqlConf struct {
 	SSHPrivateKey   string `yaml:"sshPrivateKey"`   // ssh 密钥文件路径
 	SSHRemoteHost   string `yaml:"sshRemoteHost"`   // ssh 服务器地址
 	SSHRemotePort   int64  `yaml:"sshRemotePort"`   // ssh 服务器端口
+}
+
+type TenCentCOS struct {
+	Tag       string `yaml:"tag"`       // 标记,通过标记获得连接
+	SecretId  string `yaml:"secretId"`  // secret Id
+	SecretKey string `yaml:"secretKey"` // secret Key
+	BucketURL string `yaml:"bucketUrl"` // bucket url
 }
