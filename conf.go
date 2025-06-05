@@ -31,6 +31,11 @@ func InitConf(path string) {
 	if len(Conf.MysqlConf) > 0 {
 		initMysqlConn()
 	}
+
+	if len(Conf.TenCentCOS) > 0 {
+		initTencentCOSClient()
+	}
+
 }
 
 type conf struct {
@@ -58,6 +63,8 @@ type MysqlConf struct {
 	SSHRemotePort   int64  `yaml:"sshRemotePort"`   // ssh 服务器端口
 }
 
+// TenCentCOS 腾讯对象存储连接配置
+// 用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
 type TenCentCOS struct {
 	Tag       string `yaml:"tag"`       // 标记,通过标记获得连接
 	SecretId  string `yaml:"secretId"`  // secret Id

@@ -74,6 +74,7 @@ func mysqlConn(conf *MysqlConf) (*gorm.DB, error) {
 	if conf.Database == "" || conf.User == "" || conf.Password == "" || host == "" {
 		panic("数据库配置信息获取失败")
 	}
+
 	str := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", conf.User, conf.Password, host, port, conf.Database) + "?charset=utf8mb4&parseTime=true&loc=Local"
 	if conf.DisablePrepared {
 		str = str + "&interpolateParams=true"
