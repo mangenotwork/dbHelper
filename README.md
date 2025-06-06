@@ -56,12 +56,40 @@ todo...
 
 ### mongoDB 配置
 
-todo...
+```azure
+mongoDB:
+  - tag: "btest" # 标记,通过标记获得连接
+    host: ""
+    port: 27017
+    user: ""
+    password: ""
+    database: ""
+    maxPoolSize: 0     # 连接池最大数 默认100
+    maxConnIdleTime: 0 # 连接池中保持空闲的最长时间，单位秒 默认300
+    connectTimeout: 0  # 连接超时，单位秒 默认30
+    isSSH: true # t:开启  f:关闭
+    sshUser: "" # ssh 账号
+    sshPassword: "" # ssh 密码认证; 当SSHPrivateKey同时设置，优先使用密钥认证
+    sshPrivateKey: "" # ssh 密钥文件路径
+    sshRemoteHost: "" # ssh 服务器地址
+    sshRemotePort: 22  # ssh 服务器端口
+```
 
 ### mongoDB 获取连接
 
-todo...
+使用库 go.mongodb.org/mongo-driver/mongo 保存连接是 *mongo.Database
 
+```azure
+...
+    dbHelper.InitConf("./conf.yaml")
+	mongoConn := dbHelper.GetMongoDBConn("tag")
+	collections, err := mongoConn.ListCollectionNames(context.Background(), bson.D{})
+	if err != nil {
+		dbHelper.ErrorF("List collections failed: %v", err)
+	}
+	dbHelper.Info("Collections:", collections)
+...
+```
 
 ### 腾讯云对象存储 配置
 用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
@@ -87,8 +115,8 @@ dbHelper.Info(dbHelper.TencentCOSCheckIsExist(testCos, "a.txt"))
 - [ok] mysql 的连接支持ssh隧道
 - [ok] 日志打印
 - [ok] 对象存储 腾讯云
-- 常用方法支持，uuid, md5, 字符串处理
-- mongoDB 的连接支持ssh隧道
+- [ok] 常用方法支持，uuid, md5, 字符串处理
+- [ok] mongoDB 的连接支持ssh隧道
 - redis 的连接支持ssh隧道
 - postgreSQL 的连接支持ssh隧道
 - 对象存储 阿里云

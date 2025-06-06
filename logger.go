@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net"
 	"os"
+	"path"
 	"runtime"
 	"strconv"
 	"strings"
@@ -69,6 +70,7 @@ func SetLogFile(dir, name string, maxDay int) {
 		os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
 	go func() {
+		clearLogFile()
 		timer := time.NewTicker(std.clearLogSecond)
 		for {
 			select {
@@ -85,7 +87,7 @@ func clearLogFile() {
 	for _, item := range files {
 		modTime := item.ModTime
 		flag := modTime.Add(3600 * 24 * time.Duration(std.storageMaxDay-1)).Before(now)
-		if flag {
+		if flag && path.Ext(item.Name) == ".log" {
 			_ = os.Remove(std.dir + item.Name)
 		}
 	}

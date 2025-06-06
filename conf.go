@@ -36,11 +36,15 @@ func InitConf(path string) {
 		initTencentCOSClient()
 	}
 
+	if len(Conf.MongoDBConf) > 0 {
+		initMongoDBConn()
+	}
 }
 
 type conf struct {
-	MysqlConf  []*MysqlConf  `yaml:"mysql"`
-	TenCentCOS []*TenCentCOS `yaml:"tencentCOS"`
+	MysqlConf   []*MysqlConf   `yaml:"mysql"`
+	TenCentCOS  []*TenCentCOS  `yaml:"tencentCOS"`
+	MongoDBConf []*MongoDBConf `yaml:"mongoDB"`
 }
 
 type MysqlConf struct {
@@ -70,4 +74,22 @@ type TenCentCOS struct {
 	SecretId  string `yaml:"secretId"`  // secret Id
 	SecretKey string `yaml:"secretKey"` // secret Key
 	BucketURL string `yaml:"bucketUrl"` // bucket url
+}
+
+type MongoDBConf struct {
+	Tag             string `yaml:"tag"` // 标记,通过标记获得连接
+	Host            string `yaml:"host"`
+	Port            int64  `yaml:"port"`
+	User            string `yaml:"user"`
+	Password        string `yaml:"password"`
+	Database        string `yaml:"database"`
+	MaxPoolSize     int64  `yaml:"maxPoolSize"`     // 连接池最大数 默认100
+	MaxConnIdleTime int64  `yaml:"maxConnIdleTime"` // 连接池中保持空闲的最长时间，单位秒 默认300
+	ConnectTimeout  int64  `yaml:"connectTimeout"`  // 连接超时，单位秒 默认30
+	IsSSH           bool   `yaml:"isSSH"`           // t:开启  f:关闭
+	SSHUsername     string `yaml:"sshUser"`         // ssh 账号
+	SSHPassword     string `yaml:"sshPassword"`     // ssh 密码认证; 当SSHPrivateKey同时设置，优先使用密钥认证
+	SSHPrivateKey   string `yaml:"sshPrivateKey"`   // ssh 密钥文件路径
+	SSHRemoteHost   string `yaml:"sshRemoteHost"`   // ssh 服务器地址
+	SSHRemotePort   int64  `yaml:"sshRemotePort"`   // ssh 服务器端口
 }

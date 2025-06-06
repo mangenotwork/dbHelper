@@ -16,7 +16,7 @@ var MysqlConn map[string]*gorm.DB
 func GetMysqlConn(tag string) *gorm.DB {
 	m, ok := MysqlConn[tag]
 	if !ok {
-		panic("[DB] 未init")
+		panic("[Mysql] 未init")
 	}
 	return m
 }
