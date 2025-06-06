@@ -5,8 +5,10 @@ go 1.23.0
 toolchain go1.24.1
 
 require (
+	github.com/google/uuid v1.1.1
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.66
 	golang.org/x/crypto v0.38.0
+	golang.org/x/text v0.25.0
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.30.0
@@ -21,5 +23,4 @@ require (
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/mozillazg/go-httpheader v0.2.1 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
 )

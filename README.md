@@ -93,3 +93,5 @@ dbHelper.Info(dbHelper.TencentCOSCheckIsExist(testCos, "a.txt"))
 - postgreSQL 的连接支持ssh隧道
 - 对象存储 阿里云
 - 对象存储 MinIO
+- excel操作相关的辅助函数
+- 
