@@ -63,14 +63,33 @@ todo...
 todo...
 
 
+### 腾讯云对象存储 配置
+用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
+```azure
+tencentCOS:
+  - tag: "dev" # 标记,通过标记获得连接
+    secretId: ""  # secret Id
+    secretKey: ""  # secret Key
+    bucketUrl: ""  # bucket url
+```
+
+### 腾讯云对象存储 获取连接
+- github.com/tencentyun/cos-go-sdk-v5
+```azure
+devCos := dbHelper.GetTencentCOSClient("dev")
+dbHelper.Info(dbHelper.TencentCOSCheckIsExist(devCos, "a.txt"))
+testCos := dbHelper.GetTencentCOSClient("test")
+dbHelper.Info(dbHelper.TencentCOSCheckIsExist(testCos, "a.txt"))
+```
+
 # todo list
 - [ok] 配置化   
 - [ok] mysql 的连接支持ssh隧道
 - [ok] 日志打印
-- 对象存储 腾讯云
+- [ok] 对象存储 腾讯云
 - 常用方法支持，uuid, md5, 字符串处理
+- mongoDB 的连接支持ssh隧道
 - redis 的连接支持ssh隧道
 - postgreSQL 的连接支持ssh隧道
-- mongoDB 的连接支持ssh隧道
 - 对象存储 阿里云
 - 对象存储 MinIO
