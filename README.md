@@ -36,6 +36,7 @@ mysql使用的是gorm.io/gorm库，获取的连接是*gorm.DB
 
 ```azure
 ...
+    dbHelper.InitConf("./conf.yaml")
 	conn := dbHelper.GetMysqlConn("tag")
 	var data map[string]interface{}
 	err := conn.Raw("select * from user limit 1").Scan(&data).Error
@@ -48,11 +49,39 @@ mysql使用的是gorm.io/gorm库，获取的连接是*gorm.DB
 
 ### redis 配置
 
-todo...
+```azure
+redis:
+  - tag: "" # 标记,通过标记获得连接
+    host: ""
+    port: 6379
+    db: 0
+    password: ""
+    poolSize: 10
+    minIdleConn: 5  # 最小空闲连接数
+    connMaxIdleTime: 60   # 连接处于空闲状态的最长时间 单位秒
+    isSSH: true # t:开启  f:关闭
+    sshUser: "" # ssh 账号
+    sshPassword: "" # ssh 密码认证; 当SSHPrivateKey同时设置，优先使用密钥认证
+    sshPrivateKey: "" # ssh 密钥文件路径
+    sshRemoteHost: "" # ssh 服务器地址
+    sshRemotePort: 22  # ssh 服务器端口
+```
 
 ### redis 获取连接
 
-todo...
+redis 使用的是 github.com/go-redis/redis/v9 库，获取的连接是 *redis.Client
+
+```azure
+...
+    dbHelper.InitConf("./conf.yaml")
+    redisConn := dbHelper.GetRedisConn("btest")
+	val, err := redisConn.Conn().Get(context.Background(), "key").Result()
+	if err != nil {
+		dbHelper.ErrorF("Failed to get key: %v", err)
+	}
+	dbHelper.Info("Key value:", val)
+...
+```
 
 ### mongoDB 配置
 
@@ -91,6 +120,30 @@ mongoDB:
 ...
 ```
 
+### postgreSQL 配置
+
+todo...
+
+### postgreSQL 获取连接
+
+todo...
+
+### 对象存储 MinIO 配置
+
+todo...
+
+### 对象存储 MinIO 获取连接
+
+todo...
+
+### 阿里云对象存储 配置
+
+todo...
+
+### 阿里云对象存储 获取连接
+
+todo...
+
 ### 腾讯云对象存储 配置
 用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
 ```azure
@@ -104,11 +157,20 @@ tencentCOS:
 ### 腾讯云对象存储 获取连接
 - github.com/tencentyun/cos-go-sdk-v5
 ```azure
+dbHelper.InitConf("./conf.yaml")
 devCos := dbHelper.GetTencentCOSClient("dev")
 dbHelper.Info(dbHelper.TencentCOSCheckIsExist(devCos, "a.txt"))
 testCos := dbHelper.GetTencentCOSClient("test")
 dbHelper.Info(dbHelper.TencentCOSCheckIsExist(testCos, "a.txt"))
 ```
+
+### excel操作相关辅助函数
+
+todo...
+
+### 图片处理相关辅助函数
+
+todo...
 
 # todo list
 - [ok] 配置化   
@@ -117,9 +179,9 @@ dbHelper.Info(dbHelper.TencentCOSCheckIsExist(testCos, "a.txt"))
 - [ok] 对象存储 腾讯云
 - [ok] 常用方法支持，uuid, md5, 字符串处理
 - [ok] mongoDB 的连接支持ssh隧道
-- redis 的连接支持ssh隧道
+- [ok] redis 的连接支持ssh隧道
 - postgreSQL 的连接支持ssh隧道
 - 对象存储 阿里云
 - 对象存储 MinIO
 - excel操作相关的辅助函数
-- 
+- 图片处理相关辅助函数,压缩,裁剪,水印,缩略图等

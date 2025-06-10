@@ -6,6 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/google/uuid v1.1.1
+	github.com/redis/go-redis/v9 v9.10.0
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.66
 	go.mongodb.org/mongo-driver v1.17.4
 	golang.org/x/crypto v0.38.0
@@ -16,7 +17,9 @@ require (
 )
 
 require (
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clbanning/mxj v1.8.4 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect

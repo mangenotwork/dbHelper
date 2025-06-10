@@ -39,12 +39,17 @@ func InitConf(path string) {
 	if len(Conf.MongoDBConf) > 0 {
 		initMongoDBConn()
 	}
+
+	if len(Conf.RedisConf) > 0 {
+		initRedisConn()
+	}
 }
 
 type conf struct {
 	MysqlConf   []*MysqlConf   `yaml:"mysql"`
 	TenCentCOS  []*TenCentCOS  `yaml:"tencentCOS"`
 	MongoDBConf []*MongoDBConf `yaml:"mongoDB"`
+	RedisConf   []*RedisConf   `yaml:"redis"`
 }
 
 type MysqlConf struct {
@@ -86,6 +91,23 @@ type MongoDBConf struct {
 	MaxPoolSize     int64  `yaml:"maxPoolSize"`     // 连接池最大数 默认100
 	MaxConnIdleTime int64  `yaml:"maxConnIdleTime"` // 连接池中保持空闲的最长时间，单位秒 默认300
 	ConnectTimeout  int64  `yaml:"connectTimeout"`  // 连接超时，单位秒 默认30
+	IsSSH           bool   `yaml:"isSSH"`           // t:开启  f:关闭
+	SSHUsername     string `yaml:"sshUser"`         // ssh 账号
+	SSHPassword     string `yaml:"sshPassword"`     // ssh 密码认证; 当SSHPrivateKey同时设置，优先使用密钥认证
+	SSHPrivateKey   string `yaml:"sshPrivateKey"`   // ssh 密钥文件路径
+	SSHRemoteHost   string `yaml:"sshRemoteHost"`   // ssh 服务器地址
+	SSHRemotePort   int64  `yaml:"sshRemotePort"`   // ssh 服务器端口
+}
+
+type RedisConf struct {
+	Tag             string `yaml:"tag"` // 标记,通过标记获得连接
+	Host            string `yaml:"host"`
+	Port            int    `yaml:"port"`
+	DB              int    `yaml:"db"`
+	Password        string `yaml:"password"`
+	PoolSize        int    `yaml:"poolSize"`
+	MinIdleConn     int    `yaml:"minIdleConn"`     // 最小空闲连接数
+	ConnMaxIdleTime int    `yaml:"connMaxIdleTime"` // 连接处于空闲状态的最长时间 单位秒
 	IsSSH           bool   `yaml:"isSSH"`           // t:开启  f:关闭
 	SSHUsername     string `yaml:"sshUser"`         // ssh 账号
 	SSHPassword     string `yaml:"sshPassword"`     // ssh 密码认证; 当SSHPrivateKey同时设置，优先使用密钥认证
