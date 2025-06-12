@@ -43,6 +43,10 @@ func InitConf(path string) {
 	if len(Conf.RedisConf) > 0 {
 		initRedisConn()
 	}
+
+	if len(Conf.PgsqlConf) > 0 {
+		initPgsqlConn()
+	}
 }
 
 type conf struct {
@@ -50,6 +54,7 @@ type conf struct {
 	TenCentCOS  []*TenCentCOS  `yaml:"tencentCOS"`
 	MongoDBConf []*MongoDBConf `yaml:"mongoDB"`
 	RedisConf   []*RedisConf   `yaml:"redis"`
+	PgsqlConf   []*PgsqlConf   `yaml:"pgsql"`
 }
 
 type MysqlConf struct {
@@ -114,4 +119,22 @@ type RedisConf struct {
 	SSHPrivateKey   string `yaml:"sshPrivateKey"`   // ssh 密钥文件路径
 	SSHRemoteHost   string `yaml:"sshRemoteHost"`   // ssh 服务器地址
 	SSHRemotePort   int64  `yaml:"sshRemotePort"`   // ssh 服务器端口
+}
+
+type PgsqlConf struct {
+	Tag           string `yaml:"tag"` // 标记,通过标记获得连接
+	User          string `yaml:"user"`
+	Password      string `yaml:"password"`
+	Host          string `yaml:"host"`
+	Port          int64  `yaml:"port"`
+	Database      string `yaml:"database"`
+	MaxIdle       int64  `yaml:"maxIdle"`       // 最大空闲连接数
+	MaxOpen       int64  `yaml:"maxOpen"`       // 最大连接数
+	MaxLifeTime   int64  `yaml:"maxLife"`       // 连接最大存活时间 单位ms
+	IsSSH         bool   `yaml:"isSSH"`         // t:开启  f:关闭
+	SSHUsername   string `yaml:"sshUser"`       // ssh 账号
+	SSHPassword   string `yaml:"sshPassword"`   // ssh 密码认证; 当SSHPrivateKey同时设置，优先使用密钥认证
+	SSHPrivateKey string `yaml:"sshPrivateKey"` // ssh 密钥文件路径
+	SSHRemoteHost string `yaml:"sshRemoteHost"` // ssh 服务器地址
+	SSHRemotePort int64  `yaml:"sshRemotePort"` // ssh 服务器端口
 }

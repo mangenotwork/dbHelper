@@ -6,6 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/google/uuid v1.1.1
+	github.com/lib/pq v1.10.9
 	github.com/redis/go-redis/v9 v9.10.0
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.66
 	go.mongodb.org/mongo-driver v1.17.4
