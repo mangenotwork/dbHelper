@@ -47,6 +47,11 @@ func InitConf(path string) {
 	if len(Conf.PgsqlConf) > 0 {
 		initPgsqlConn()
 	}
+
+	if len(Conf.AliYunOSS) > 0 {
+		initAliYunOSSClient()
+	}
+
 }
 
 type conf struct {
@@ -55,6 +60,7 @@ type conf struct {
 	MongoDBConf []*MongoDBConf `yaml:"mongoDB"`
 	RedisConf   []*RedisConf   `yaml:"redis"`
 	PgsqlConf   []*PgsqlConf   `yaml:"pgsql"`
+	AliYunOSS   []*AliYunOSS   `yaml:"aliYunOSS"`
 }
 
 type MysqlConf struct {
@@ -137,4 +143,12 @@ type PgsqlConf struct {
 	SSHPrivateKey string `yaml:"sshPrivateKey"` // ssh 密钥文件路径
 	SSHRemoteHost string `yaml:"sshRemoteHost"` // ssh 服务器地址
 	SSHRemotePort int64  `yaml:"sshRemotePort"` // ssh 服务器端口
+}
+
+type AliYunOSS struct {
+	Tag             string `yaml:"tag"`      // 标记,通过标记获得连接
+	Endpoint        string `yaml:"endpoint"` // OSS访问域名，如：oss-cn-hangzhou.aliyuncs.com
+	AccessKeyId     string `yaml:"accessKeyId"`
+	AccessKeySecret string `yaml:"accessKeySecret"`
+	BucketName      string `yaml:"bucketName"`
 }

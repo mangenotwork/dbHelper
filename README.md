@@ -168,11 +168,26 @@ todo...
 
 ### 阿里云对象存储 配置
 
-todo...
+```azure
+aliYunOSS:
+   - tag: ""      # 标记,通过标记获得连接
+     endpoint: "" # OSS访问域名，如：oss-cn-hangzhou.aliyuncs.com
+     accessKeyId: ""
+     accessKeySecret: ""
+     bucketName: ""
+```
 
 ### 阿里云对象存储 获取连接
 
-todo...
+- github.com/aliyun/aliyun-oss-go-sdk/oss
+- 
+```azure
+dbHelper.InitConf("./conf.yaml")
+bucket := dbHelper.GetAliYunOSSClient("dev")
+localFile := "./a.txt"
+objectKey := "a.txt"
+bucket.PutObjectFromFile(objectKey, localFile)
+```
 
 ### 腾讯云对象存储 配置
 用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
@@ -211,7 +226,7 @@ todo...
 - [ok] mongoDB 的连接支持ssh隧道
 - [ok] redis 的连接支持ssh隧道
 - [ok] postgreSQL 的连接支持ssh隧道
-- 对象存储 阿里云
+- [ok] 对象存储 阿里云
 - 对象存储 MinIO
 - excel操作相关的辅助函数
 - 图片处理相关辅助函数,压缩,裁剪,水印,缩略图等
