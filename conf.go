@@ -52,6 +52,9 @@ func InitConf(path string) {
 		initAliYunOSSClient()
 	}
 
+	if len(Conf.MinIOConf) > 0 {
+		initMinioClient()
+	}
 }
 
 type conf struct {
@@ -61,6 +64,7 @@ type conf struct {
 	RedisConf   []*RedisConf   `yaml:"redis"`
 	PgsqlConf   []*PgsqlConf   `yaml:"pgsql"`
 	AliYunOSS   []*AliYunOSS   `yaml:"aliYunOSS"`
+	MinIOConf   []*MinIOConf   `yaml:"minio"`
 }
 
 type MysqlConf struct {
@@ -151,4 +155,12 @@ type AliYunOSS struct {
 	AccessKeyId     string `yaml:"accessKeyId"`
 	AccessKeySecret string `yaml:"accessKeySecret"`
 	BucketName      string `yaml:"bucketName"`
+}
+
+type MinIOConf struct {
+	Tag             string `yaml:"tag"`             // 标记,通过标记获得连接
+	Endpoint        string `yaml:"endpoint"`        // MinIO 服务器地址
+	AccessKeyId     string `yaml:"accessKeyId"`     // 访问密钥 ID
+	AccessKeySecret string `yaml:"accessKeySecret"` // 秘密访问密钥
+	UseSSL          bool   `yaml:"useSSL"`          // 是否使用 SSL   true/false
 }

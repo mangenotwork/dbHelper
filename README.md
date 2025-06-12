@@ -160,11 +160,25 @@ pgsql:
 
 ### 对象存储 MinIO 配置
 
-todo...
+```azure
+minio:
+  - tag: ""      # 标记,通过标记获得连接
+    endpoint: "" # MinIO 服务器地址
+    accessKeyId: "" # 访问密钥 ID
+    accessKeySecret: "" # 秘密访问密钥
+    useSSL: false # 是否使用 SSL
+```
 
 ### 对象存储 MinIO 获取连接
 
-todo...
+- github.com/minio/minio-go/v7   获取的是 *minio.Client
+- 
+```azure
+dbHelper.InitConf("./conf.yaml")
+client := dbHelper.GetMinioClient("dev")
+client.FPutObject(ctx, bucketName, objectName, filePath, minio.PutObjectOptions{ContentType: contentType})
+...
+```
 
 ### 阿里云对象存储 配置
 
@@ -209,6 +223,64 @@ testCos := dbHelper.GetTencentCOSClient("test")
 dbHelper.Info(dbHelper.TencentCOSCheckIsExist(testCos, "a.txt"))
 ```
 
+### 常用辅助函数
+```azure
+dbHelper.ID() int64  // 生成雪花id
+dbHelper.IDMd5() string // 生成雪花id MD5
+dbHelper.GetMD5Encode(data string) string // MD5编码
+dbHelper.NowTimestampStr() string // 当前时间戳字符串
+dbHelper.FileMd5sum(fileName string) string // 文件MD5
+dbHelper.GetAllFile(pathname string) ([]string, error) // 获取指定目录下的所有文件
+dbHelper.RandomIntCaptcha(captchaLen int) string // 生成 captchaLen 位随机数，理论上会重复
+dbHelper.DeepEqual(a, b interface{}) bool // DeepEqual 深度比较任意类型的两个变量的是否相等,类型一样值一样反回true, 如果元素都是nil，且类型相同，则它们是相等的; 如果它们是不同的类型，它们是不相等的
+dbHelper.SliceContains[V comparable](a []V, v V) bool // 判断切片a中是否包含元素v
+dbHelper.SliceDeduplicate[V comparable](a []V) []V // 去重
+dbHelper.AnyToString(i interface{}) string // AnyToString any -> string
+dbHelper.JsonToMap(str string) (map[string]interface{}, error) // JsonToMap json -> map
+dbHelper.MapToJson(m interface{}) (string, error) // MapToJson map -> json
+dbHelper.AnyToMap(data interface{}) map[string]interface{} // AnyToMap interface{} -> map[string]interface{}
+dbHelper.AnyToInt(data interface{}) int // AnyToInt interface{} -> int
+dbHelper.AnyToInt64(data interface{}) int64 // AnyToInt64 interface{} -> int64
+dbHelper.AnyToFloat64(data interface{}) float64 // AnyToFloat64 interface{} -> float64
+dbHelper.AnyToStrings(data interface{}) []string // AnyToStrings interface{} -> []string
+dbHelper.AnyToJson(data interface{}) (string, error) // AnyToJson interface{} -> json string
+dbHelper.AnyToJsonB(data interface{}) ([]byte, error) // AnyToJsonB interface{} -> json string
+dbHelper.IntToHex(i int) string // IntToHex int -> hex
+dbHelper.Int64ToHex(i int64) string // Int64ToHex int64 -> hex
+dbHelper.HexToInt(s string) int // HexToInt hex -> int
+dbHelper.HexToInt64(s string) int64 // HexToInt64 hex -> int
+dbHelper.StrNumToInt64(str string) int64 // StrNumToInt64 string -> int64
+dbHelper.StrNumToInt(str string) int // StrNumToInt string -> int
+dbHelper.StrNumToInt32(str string) int32 // StrNumToInt32 string -> int32
+dbHelper.StrNumToFloat64(str string) float64 // StrNumToFloat64 string -> float64
+dbHelper.StrNumToFloat32(str string) float32 // StrNumToFloat32 string -> float32
+dbHelper.Uint8ToStr(bs []uint8) string // Uint8ToStr []uint8 -> string
+dbHelper.StrToByte(s string) []byte // StrToByte string -> []byte
+dbHelper.ByteToStr(b []byte) string // ByteToStr []byte -> string
+dbHelper.BoolToByte(b bool) []byte // BoolToByte bool -> []byte
+dbHelper.ByteToBool(b []byte) bool // ByteToBool []byte -> bool
+dbHelper.IntToByte(i int) []byte // IntToByte int -> []byte
+dbHelper.ByteToInt(b []byte) int // ByteToInt []byte -> int
+dbHelper.Int64ToByte(i int64) []byte // Int64ToByte int64 -> []byte
+dbHelper.ByteToInt64(b []byte) int64 // ByteToInt64 []byte -> int64
+dbHelper.Float32ToByte(f float32) []byte // Float32ToByte float32 -> []byte
+dbHelper.Float32ToUint32(f float32) uint32 // Float32ToUint32 float32 -> uint32
+dbHelper.ByteToFloat32(b []byte) float32 // ByteToFloat32 []byte -> float32
+dbHelper.Float64ToByte(f float64) []byte // Float64ToByte float64 -> []byte
+dbHelper.Float64ToUint64(f float64) uint64 // Float64ToUint64 float64 -> uint64
+dbHelper.ByteToFloat64(b []byte) float64 // ByteToFloat64 []byte -> float64
+dbHelper.StructToMap(obj interface{}) map[string]interface{} // StructToMap  struct -> map[string]interface{}
+dbHelper.ByteToBit(b []byte) []uint8 // ByteToBit []byte -> []uint8 (bit)
+dbHelper.BitToByte(b []uint8) []byte // BitToByte []uint8 -> []byte
+dbHelper.ByteToBinaryString(data byte) (str string) // ByteToBinaryString  字节 -> 二进制字符串
+dbHelper.MapStrToAny(m map[string]string) map[string]interface{} // MapStrToAny map[string]string -> map[string]interface{}
+dbHelper.ByteToGBK(strBuf []byte) []byte // ByteToGBK   byte -> gbk byte
+    
+还有其余的没有那么常用的方法...
+
+```
+
+
 ### excel操作相关辅助函数
 
 todo...
@@ -218,15 +290,5 @@ todo...
 todo...
 
 # todo list
-- [ok] 配置化   
-- [ok] mysql 的连接支持ssh隧道
-- [ok] 日志打印
-- [ok] 对象存储 腾讯云
-- [ok] 常用方法支持，uuid, md5, 字符串处理
-- [ok] mongoDB 的连接支持ssh隧道
-- [ok] redis 的连接支持ssh隧道
-- [ok] postgreSQL 的连接支持ssh隧道
-- [ok] 对象存储 阿里云
-- 对象存储 MinIO
 - excel操作相关的辅助函数
 - 图片处理相关辅助函数,压缩,裁剪,水印,缩略图等
